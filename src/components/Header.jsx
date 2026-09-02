@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUser, removeUser } from "../utils/userSlice";
+import { LOGO } from "../utils/constants";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -48,11 +49,7 @@ const Header = () => {
 
   return (
     <div className="absolute w-screen px-15 py-7 bg-gradient-to-b from-black z-10 flex justify-between">
-      <img
-        className="w-45"
-        src="https://occ.a.nflxso.net/dnmt/api/v6/iL4oJVDYZ8KLSrJ6eG2OwtghbfQ/AAAAAfwxusEeCteu-L_QQ56_G2cohyI1E4BIh2uyr5t9gDhH0CKWHw3NVhndjuF7yQ26z3cYq_lnzY5pP6OarHyiibuiy2jIIa5sIhSvgal1S6u9YDVAyVoX6osPniEKN-dYy77H_pLfOCD7.svg"
-        alt="logo"
-      />
+      <img className="w-45" src={LOGO} alt="logo" />
       {user && (
         <div className="flex w-40 p-2 justify-evenly">
           <img
