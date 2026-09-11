@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUser, removeUser } from "../utils/userSlice";
-import { LOGO } from "../utils/constants";
+import { LOGO, SUPPORTED_LANGUAGES } from "../utils/constants";
 import { toggleGptSearchView } from "../utils/gptSlice";
 
 const Header = () => {
@@ -57,18 +57,28 @@ const Header = () => {
     <div className="absolute w-screen px-15 py-7 bg-gradient-to-b from-black z-10 flex justify-between">
       <img className="w-45" src={LOGO} alt="logo" />
       {user && (
-        <div className="flex w-70 p-2 justify-between">
+        <div className="flex w-95 p-2 justify-between">
+          <select className="cursor-pointer rounded border border-gray-500 bg-black/50 pl-3 pr-5 py-1 text-md text-white focus:outline-none focus:ring-1 focus:ring-white">
+            {SUPPORTED_LANGUAGES.map((lang) => (
+              <option key={lang.identifier} value={lang.identifier}>
+                {lang.name}
+              </option>
+            ))}
+          </select>
+
           <button
             onClick={handleGptSearchClick}
             className="rounded bg-orange-600 px-4 py-1.5 text-sm font-semibold text-white transition duration-200 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-orange"
           >
             GPT Search
           </button>
+
           <img
             className="w-10 h-10 rounded-sm object-cover"
             src={user.photoURL}
             alt="usericon"
           />
+
           <button
             onClick={handleSignOut}
             className="rounded bg-red-600 px-4 py-1.5 text-sm font-semibold text-white transition duration-200 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-black"
