@@ -60,8 +60,12 @@ const Header = () => {
   };
 
   return (
-    <div className="absolute w-screen px-15 py-7 bg-gradient-to-b from-black z-10 flex justify-between">
-      <img className="w-45" src={LOGO} alt="logo" />
+    <div className="absolute w-screen px-15 py-7 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
+      <img
+        className="w-45 mx-auto md:mx-0 my-1 md:my-0"
+        src={LOGO}
+        alt="logo"
+      />
 
       {user && (
         <div className="flex w-auto p-2 justify-between">
@@ -86,7 +90,7 @@ const Header = () => {
           </button>
 
           <img
-            className="w-10 h-10 mr-2 rounded-sm object-cover"
+            className="hidden md:block w-10 h-10 mr-2 rounded-sm object-cover"
             src={user.photoURL}
             alt="usericon"
           />
