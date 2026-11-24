@@ -1,38 +1,50 @@
-const VideoTitle = ({ title, overview }) => {
+const VideoTitle = ({ title, overview, rating, year }) => {
   return (
-    <div className="w-screen aspect-video pt-[20%] px-6 md:px-14 absolute text-white bg-gradient-to-r from-black">
-      <h1 className="text-2xl md:text-3xl font-bold">{title}</h1>
-      <p className="hidden md:inline-block py-6 text-sm w-1/3">{overview}</p>
+    <div className="absolute inset-0 z-10 text-fg">
+      {/* Readability gradients: from the left, and fading into the page at the bottom */}
+      <div className="absolute inset-0 bg-linear-to-r from-bg/95 via-bg/50 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-bg via-bg/60 to-transparent" />
 
-      <div className="my-4 md:m-0 flex items-center gap-3">
-        <button className="flex items-center gap-2 rounded bg-white px-2 md:px-6 py-1 md:py-2 text-base font-semibold text-black transition duration-150 hover:bg-white/80">
-          <svg
-            className="w-4 md:w-6 h-4 md:h-6"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path d="M8 5v14l11-7z" />
-          </svg>
-          Play
-        </button>
+      <div className="relative flex h-full flex-col justify-end px-5 pb-14 md:justify-start md:px-12 md:pb-0 md:pt-[16%] lg:pt-[14%]">
+        <div className="max-w-2xl">
+          <div className="mb-3 flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-muted md:text-sm">
+            <span className="rounded bg-primary px-2 py-0.5 text-white">
+              Now Playing
+            </span>
+            {rating > 0 && (
+              <span className="flex items-center gap-1 text-fg">
+                <span className="text-amber-400">★</span>
+                {rating.toFixed(1)}
+              </span>
+            )}
+            {year && <span>{year}</span>}
+          </div>
 
-        <button className="hidden md:flex items-center gap-2 rounded bg-gray-500/40 px-6 py-2 text-base font-semibold text-white backdrop-blur-sm transition duration-150 hover:bg-gray-500/25">
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path
-              d="M12 16v-4M12 8h.01"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          More Info
-        </button>
+          <h1 className="font-display text-5xl leading-none tracking-wide drop-shadow-lg sm:text-6xl md:text-7xl lg:text-8xl">
+            {title}
+          </h1>
+
+          <p className="mt-4 hidden max-w-xl text-sm leading-relaxed text-fg/85 line-clamp-3 sm:block md:text-base">
+            {overview}
+          </p>
+
+          <div className="mt-6 flex items-center gap-3">
+            <button className="flex items-center gap-2 rounded-md bg-primary px-5 py-2 font-semibold text-white shadow-lg shadow-primary/30 transition hover:bg-primary-hover md:px-7 md:py-2.5 md:text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg">
+              <svg className="h-5 w-5 md:h-6 md:w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              Play
+            </button>
+
+            <button className="flex items-center gap-2 rounded-md border border-white/20 bg-white/10 px-5 py-2 font-semibold text-white backdrop-blur-md transition hover:bg-white/20 md:px-7 md:py-2.5 md:text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+              <svg className="h-5 w-5 md:h-6 md:w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4M12 8h.01" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              More Info
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
