@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import Header from "./Header";
+import PosterBackdrop from "./PosterBackdrop";
 import { checkValidData } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
@@ -9,143 +10,172 @@ import {
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { USER_AVATAR, BG_IMAGE } from "../utils/constants";
+import { USER_AVATAR } from "../utils/constants";
+
+const FIREBASE_ERRORS = {
+  "auth/invalid-credential": "Incorrect email or password.",
+  "auth/wrong-password": "Incorrect email or password.",
+  "auth/user-not-found": "No account found with this email.",
+  "auth/email-already-in-use": "An account with this email already exists.",
+  "auth/too-many-requests": "Too many attempts. Please try again later.",
+  "auth/network-request-failed": "Network error. Check your connection.",
+};
+
+const getFriendlyError = (error) =>
+  FIREBASE_ERRORS[error.code] ?? "Something went wrong. Please try again.";
+
+const inputClass =
+  "w-full rounded-lg border border-border bg-surface/80 px-4 py-3.5 text-fg placeholder:text-muted transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
 
-  const handleButtonClick = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     const message = checkValidData(
-      // name.current.value,
       email.current.value,
       password.current.value,
     );
     setErrorMessage(message);
     if (message) return;
 
-    // Sign In / Sign Up Logic
-    if (!isSignInForm) {
-      // Sign Up Logic
-      createUserWithEmailAndPassword(
-        auth,
-        email.current.value,
-        password.current.value,
-      )
-        .then((userCredential) => {
-          // Signed up
-          const user = userCredential.user;
-
-          updateProfile(user, {
-            displayName: name.current.value,
-            photoURL: USER_AVATAR,
-          })
-            .then(() => {
-              // Profile updated!
-              const { uid, email, displayName, photoURL } = auth.currentUser;
-              dispatch(
-                addUser({
-                  uid: uid,
-                  email: email,
-                  displayName: displayName,
-                  photoURL: photoURL,
-                }),
-              );
-            })
-            .catch((error) => {
-              // An error occurred
-              setErrorMessage(error.message);
-            });
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMessage(errorCode + "-" + errorMessage);
+    setIsLoading(true);
+    try {
+      if (!isSignInForm) {
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value,
+        );
+        await updateProfile(user, {
+          displayName: name.current.value,
+          photoURL: USER_AVATAR,
         });
-    } else {
-      // Sign In Logic
-      signInWithEmailAndPassword(
-        auth,
-        email.current.value,
-        password.current.value,
-      )
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMessage(errorCode + "-" + errorMessage);
-        });
+        const { uid, email: userEmail, displayName, photoURL } =
+          auth.currentUser;
+        dispatch(
+          addUser({ uid, email: userEmail, displayName, photoURL }),
+        );
+      } else {
+        await signInWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value,
+        );
+      }
+      // Header's auth listener handles the redirect to /browse
+    } catch (error) {
+      setErrorMessage(getFriendlyError(error));
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
+    setErrorMessage(null);
   };
 
   return (
-    <div>
+    <div className="min-h-screen">
       <Header />
-      <div className="absolute">
-        <img
-          className="h-screen md:w-screen object-cover fixed"
-          src={BG_IMAGE}
-          alt="bg-image"
-        />
-      </div>
+      <PosterBackdrop />
 
-      <form
-        onSubmit={(e) => e.preventDefault()}
-        className="w-full md:w-3/12 absolute p-12 bg-black/80 my-36 mx-auto right-0 left-0 text-white rounded-lg"
-      >
-        <h1 className="font-bold text-3xl py-4">
-          {isSignInForm ? "Sign In" : "Sign Up"}
-        </h1>
-
-        {!isSignInForm && (
-          <input
-            ref={name}
-            type="text"
-            placeholder="Full Name"
-            className="p-4 my-4 w-full bg-gray-700 text-gray-50 rounded-lg"
-          />
-        )}
-
-        <input
-          ref={email}
-          type="text"
-          placeholder="Email Address"
-          className="p-4 my-4 w-full bg-gray-700 text-gray-50 rounded-lg"
-        />
-
-        <input
-          ref={password}
-          type="password"
-          placeholder="Password"
-          className="p-4 my-4 w-full bg-gray-700 text-gray-50 rounded-lg"
-        />
-
-        <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
-
-        <button
-          className="p-4 my-6 bg-red-700 w-full rounded-lg"
-          onClick={handleButtonClick}
+      <main className="flex min-h-screen items-center justify-center px-4 pt-28 pb-12">
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="w-full max-w-md rounded-2xl border border-white/10 bg-bg/70 p-8 md:p-10 shadow-2xl shadow-black/60 backdrop-blur-xl"
         >
-          {isSignInForm ? "Sign In" : "Sign Up"}
-        </button>
-        <p className="py-4 cursor-pointer" onClick={toggleSignInForm}>
-          {isSignInForm
-            ? "New to Netflix? Sign Up Now"
-            : "Already registered? Sign In Now"}
-        </p>
-      </form>
+          <h1 className="font-display text-5xl tracking-wide text-fg">
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </h1>
+          <p className="mt-1 mb-6 text-sm text-muted">
+            {isSignInForm
+              ? "Welcome back. Your next movie is waiting."
+              : "Create an account to get AI-powered picks."}
+          </p>
+
+          <div className="space-y-4">
+            {!isSignInForm && (
+              <input
+                ref={name}
+                type="text"
+                autoComplete="name"
+                placeholder="Full Name"
+                className={inputClass}
+              />
+            )}
+
+            <input
+              ref={email}
+              type="email"
+              autoComplete="email"
+              placeholder="Email Address"
+              className={inputClass}
+            />
+
+            <div>
+              <input
+                ref={password}
+                type="password"
+                autoComplete={isSignInForm ? "current-password" : "new-password"}
+                placeholder="Password"
+                className={inputClass}
+              />
+              {!isSignInForm && (
+                <p className="mt-2 text-xs text-muted">
+                  At least 8 characters, with an uppercase letter, a lowercase
+                  letter and a number.
+                </p>
+              )}
+            </div>
+          </div>
+
+          {errorMessage && (
+            <div
+              role="alert"
+              className="mt-5 flex items-start gap-2 rounded-lg border border-primary/40 bg-primary/10 px-4 py-3 text-sm text-red-200"
+            >
+              <svg className="mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v4M12 16h.01" strokeLinecap="round" />
+              </svg>
+              <span>{errorMessage}</span>
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3.5 font-semibold text-white shadow-lg shadow-primary/30 transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+          >
+            {isLoading && (
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+            )}
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </button>
+
+          <p className="mt-6 text-sm text-muted">
+            {isSignInForm ? "New to NetflixGPT? " : "Already have an account? "}
+            <button
+              type="button"
+              onClick={toggleSignInForm}
+              className="font-semibold text-fg underline-offset-4 hover:underline"
+            >
+              {isSignInForm ? "Sign up now" : "Sign in"}
+            </button>
+          </p>
+        </form>
+      </main>
     </div>
   );
 };
