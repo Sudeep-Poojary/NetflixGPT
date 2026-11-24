@@ -85,7 +85,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    // `isolate` keeps the -z-10 backdrop above body's background
+    <div className="relative isolate min-h-screen">
       <Header />
       <PosterBackdrop />
 

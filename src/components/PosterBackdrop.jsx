@@ -21,7 +21,9 @@ const fetchTrendingPosters = async () => {
 /**
  * Full-screen, tilted wall of trending movie posters behind a dark vignette.
  * Falls back to a plain gradient if TMDB can't be reached.
- * `dim` controls how dark the overlay is ("normal" | "strong").
+ * `dim` controls how dark the overlay is ("normal" | "strong", which also blurs).
+ * The parent must create a stacking context (e.g. `isolate`) so the
+ * -z-10 layer isn't hidden behind the body's background.
  */
 const PosterBackdrop = ({ dim = "normal" }) => {
   const [posters, setPosters] = useState(cachedPosters ?? []);
@@ -50,7 +52,11 @@ const PosterBackdrop = ({ dim = "normal" }) => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(225,29,46,0.25),transparent_55%),radial-gradient(ellipse_at_bottom_right,rgba(139,92,246,0.25),transparent_55%)]" />
 
       {tiles.length > 0 && (
-        <div className="absolute -inset-1/4 grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3 -rotate-12 opacity-60">
+        <div
+          className={`absolute -inset-1/4 grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3 -rotate-12 opacity-60 ${
+            dim === "strong" ? "blur-[2px]" : ""
+          }`}
+        >
           {tiles.map((path, i) => (
             <img
               key={i}
