@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUser, removeUser } from "../utils/userSlice";
-import { LOGO, SUPPORTED_LANGUAGES } from "../utils/constants";
+import { SUPPORTED_LANGUAGES } from "../utils/constants";
+import Logo from "./Logo";
 import { toggleGptSearchView } from "../utils/gptSlice";
 import { changeLanguage } from "../utils/configSlice";
 
@@ -61,11 +62,7 @@ const Header = () => {
 
   return (
     <div className="absolute w-screen px-15 py-7 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
-      <img
-        className="w-45 mx-auto md:mx-0 my-1 md:my-0"
-        src={LOGO}
-        alt="logo"
-      />
+      <Logo className="mx-auto md:mx-0 my-1 md:my-0" />
 
       {user && (
         <div className="flex w-auto p-2 justify-between">
