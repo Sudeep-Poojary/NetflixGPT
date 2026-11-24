@@ -1,22 +1,15 @@
-import { BG_IMAGE } from "../utils/constants";
 import GptMovieSuggestions from "./GptMovieSuggestions";
 import GptSearchBar from "./GptSearchBar";
+import PosterBackdrop from "./PosterBackdrop";
 
 const GptSearch = () => {
   return (
-    <>
-      <div className="fixed -z-10">
-        <img
-          className="h-screen object-cover md:w-screen"
-          src={BG_IMAGE}
-          alt="bg-image"
-        />
-      </div>
-      <div>
-        <GptSearchBar />
-        <GptMovieSuggestions />
-      </div>
-    </>
+    // `isolate` keeps the -z-10 backdrop above body's background
+    <div className="relative isolate min-h-screen">
+      <PosterBackdrop dim="strong" />
+      <GptSearchBar />
+      <GptMovieSuggestions />
+    </div>
   );
 };
 
