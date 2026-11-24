@@ -8,20 +8,23 @@ const usePopularMovies = () => {
 
   const popularMovies = useSelector((store) => store.movies.popularMovies);
 
-  const getPopularMovies = async () => {
-    const data = await fetch(
-      "https://api.themoviedb.org/3/movie/popular?&page=1",
-      API_OPTIONS,
-    );
-
-    const json = await data.json();
-
-    dispatch(addPopularMovies(json.results));
-  };
-
   useEffect(() => {
-    !popularMovies && getPopularMovies();
-  }, []);
+    // Already in the store: skip the refetch
+    if (popularMovies) return;
+
+    const getMovies = async () => {
+      const data = await fetch(
+        "https://api.themoviedb.org/3/movie/popular?&page=1",
+        API_OPTIONS,
+      );
+
+      const json = await data.json();
+
+      dispatch(addPopularMovies(json.results));
+    };
+
+    getMovies();
+  }, [dispatch, popularMovies]);
 };
 
 export default usePopularMovies;
