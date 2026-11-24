@@ -12,7 +12,7 @@ NetflixGPT: a Netflix-style movie browsing app (React 19 + Vite) with Firebase e
 - `npm run build`: production build to `dist/`
 - `npm run lint`: ESLint (flat config in `eslint.config.js`)
 - `npm run preview`: serve the built `dist/`
-- Deploy: `firebase deploy` (Firebase Hosting serves `dist/`; see `firebase.json` / `.firebaserc`)
+- Deploy: Vercel, linked to the GitHub repo (pushes trigger deployments). `vercel.json` rewrites all paths to `index.html` for client-side routing. Firebase is used only for authentication; `firebase.json` / `.firebaserc` are leftover Firebase Hosting config and are not used for deploys.
 
 There is no test framework configured.
 
