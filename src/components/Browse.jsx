@@ -6,6 +6,7 @@ import usePopularMovies from "../hooks/usePopularMovies";
 import useTopRatedMovies from "../hooks/useTopRatedMovies";
 import useUpcomingMovies from "../hooks/useUpcomingMovies";
 import GptSearch from "./GptSearch";
+import Footer from "./Footer";
 import { useSelector } from "react-redux";
 
 const Browse = () => {
@@ -17,7 +18,8 @@ const Browse = () => {
   useUpcomingMovies();
 
   return (
-    <div>
+    // Column layout keeps the footer at the bottom even when content is short
+    <div className="flex min-h-screen flex-col">
       <Header />
       {showGptSearch ? (
         <GptSearch />
@@ -27,6 +29,7 @@ const Browse = () => {
           <SecondaryContainer />
         </>
       )}
+      <Footer />
     </div>
   );
 };

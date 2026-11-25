@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import Header from "./Header";
 import PosterBackdrop from "./PosterBackdrop";
 import Alert from "./Alert";
+import Footer from "./Footer";
 import { checkValidData } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
@@ -86,11 +87,11 @@ const Login = () => {
 
   return (
     // `isolate` keeps the -z-10 backdrop above body's background
-    <div className="relative isolate min-h-screen">
+    <div className="relative isolate flex min-h-screen flex-col">
       <Header />
       <PosterBackdrop />
 
-      <main className="flex min-h-screen items-center justify-center px-4 pt-24 pb-12">
+      <main className="flex flex-1 items-center justify-center px-4 pt-24 pb-12">
         <form
           onSubmit={handleSubmit}
           noValidate
@@ -166,6 +167,8 @@ const Login = () => {
           </p>
         </form>
       </main>
+
+      <Footer />
     </div>
   );
 };
