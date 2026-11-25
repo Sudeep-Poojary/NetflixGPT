@@ -1,1 +1,100 @@
 @import "tailwindcss";
+
+@theme {
+  /* Surfaces */
+  --color-bg: #0b0b0f;
+  --color-surface: #16161d;
+  --color-surface-2: #22222b;
+  --color-border: #2e2e38;
+
+  /* Text */
+  --color-fg: #f5f5f7;
+  --color-muted: #a1a1aa;
+
+  /* Movie actions */
+  --color-primary: #e11d2e;
+  --color-primary-hover: #c0142a;
+
+  /* GPT / AI accent gradient */
+  --color-ai-from: #10b9a1;
+  --color-ai-to: #8b5cf6;
+
+  /* Fonts */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bebas Neue", "Inter", ui-sans-serif, sans-serif;
+
+  /* Skeleton shimmer */
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+}
+
+@layer base {
+  html,
+  body {
+    @apply bg-bg text-fg font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary/60 text-white;
+  }
+}
+
+/* Hide scrollbars but keep scrolling (used by movie rows) */
+@utility scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*
+ * Shared controls, so every button and field has the same shape and states.
+ * Size (height/padding/text size) is set where they're used.
+ */
+@utility btn {
+  @apply inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md font-semibold whitespace-nowrap transition;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
+  @apply disabled:cursor-not-allowed disabled:opacity-70;
+}
+
+/* Movie actions (Play, Sign In) */
+@utility btn-primary {
+  @apply bg-primary text-white shadow-lg shadow-primary/25 hover:bg-primary-hover focus-visible:ring-primary;
+}
+
+/* GPT features */
+@utility btn-ai {
+  @apply bg-linear-to-r from-ai-from to-ai-to text-white hover:brightness-110 focus-visible:ring-ai-to;
+}
+
+/* Secondary actions (More Info, Sign Out) */
+@utility btn-ghost {
+  @apply border border-white/15 bg-white/10 text-fg backdrop-blur-md hover:border-white/30 hover:bg-white/20 focus-visible:ring-white;
+}
+
+@utility field {
+  @apply rounded-md border border-white/15 bg-bg/80 text-fg backdrop-blur-xl transition placeholder:text-muted;
+  @apply hover:border-white/30 focus:border-white/70 focus:outline-none;
+}
+
+/* Shimmering placeholder block for loading states */
+@utility skeleton {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-surface) 25%,
+    var(--color-surface-2) 50%,
+    var(--color-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}

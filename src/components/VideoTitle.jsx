@@ -1,38 +1,51 @@
-const VideoTitle = ({ title, overview }) => {
+const VideoTitle = ({ title, overview, rating, year }) => {
   return (
-    <div className="w-screen aspect-video pt-[20%] px-6 md:px-14 absolute text-white bg-gradient-to-r from-black">
-      <h1 className="text-2xl md:text-3xl font-bold">{title}</h1>
-      <p className="hidden md:inline-block py-6 text-sm w-1/3">{overview}</p>
+    <div className="absolute inset-0 z-10 text-fg">
+      {/* Light gradients: enough for readable text while keeping the trailer visible */}
+      <div className="absolute inset-y-0 left-0 w-full bg-linear-to-r from-bg/75 via-bg/25 via-40% to-transparent md:w-2/3" />
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-bg via-bg/40 to-transparent" />
 
-      <div className="my-4 md:m-0 flex items-center gap-3">
-        <button className="flex items-center gap-2 rounded bg-white px-2 md:px-6 py-1 md:py-2 text-base font-semibold text-black transition duration-150 hover:bg-white/80">
-          <svg
-            className="w-4 md:w-6 h-4 md:h-6"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path d="M8 5v14l11-7z" />
-          </svg>
-          Play
-        </button>
+      {/* Content sits in the lower-left, above where the first movie row overlaps */}
+      <div className="relative flex h-full flex-col justify-end px-4 pb-12 md:px-12 md:pb-[16%]">
+        <div className="max-w-sm md:max-w-md lg:max-w-lg">
+          <div className="mb-2 flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-widest text-muted md:text-xs">
+            <span className="rounded-sm bg-primary px-1.5 py-0.5 text-white">
+              Now Playing
+            </span>
+            {rating > 0 && (
+              <span className="flex items-center gap-1 text-fg">
+                <span className="text-amber-400">★</span>
+                {rating.toFixed(1)}
+              </span>
+            )}
+            {year && <span>{year}</span>}
+          </div>
 
-        <button className="hidden md:flex items-center gap-2 rounded bg-gray-500/40 px-6 py-2 text-base font-semibold text-white backdrop-blur-sm transition duration-150 hover:bg-gray-500/25">
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path
-              d="M12 16v-4M12 8h.01"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          More Info
-        </button>
+          <h1 className="font-display text-4xl leading-none tracking-wide drop-shadow-lg md:text-5xl lg:text-6xl">
+            {title}
+          </h1>
+
+          <p className="mt-3 hidden text-sm leading-relaxed text-fg/80 line-clamp-2 sm:block lg:line-clamp-3">
+            {overview}
+          </p>
+
+          <div className="mt-4 flex items-center gap-2.5">
+            <button className="btn btn-primary h-9 px-4 text-sm md:h-10 md:px-5">
+              <svg className="h-4 w-4 md:h-5 md:w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              Play
+            </button>
+
+            <button className="btn btn-ghost h-9 px-4 text-sm md:h-10 md:px-5">
+              <svg className="h-4 w-4 md:h-5 md:w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4M12 8h.01" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              More Info
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

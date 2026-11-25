@@ -8,20 +8,23 @@ const useUpcomingMovies = () => {
 
   const upcomingMovies = useSelector((store) => store.movies.upcomingMovies);
 
-  const getUpcomingMovies = async () => {
-    const data = await fetch(
-      "https://api.themoviedb.org/3/movie/upcoming?&page=1",
-      API_OPTIONS,
-    );
-
-    const json = await data.json();
-
-    dispatch(addUpcomingMovies(json.results));
-  };
-
   useEffect(() => {
-    !upcomingMovies && getUpcomingMovies();
-  }, []);
+    // Already in the store: skip the refetch
+    if (upcomingMovies) return;
+
+    const getMovies = async () => {
+      const data = await fetch(
+        "https://api.themoviedb.org/3/movie/upcoming?&page=1",
+        API_OPTIONS,
+      );
+
+      const json = await data.json();
+
+      dispatch(addUpcomingMovies(json.results));
+    };
+
+    getMovies();
+  }, [dispatch, upcomingMovies]);
 };
 
 export default useUpcomingMovies;
