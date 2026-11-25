@@ -12,7 +12,7 @@ const ArrowButton = ({ direction, onClick }) => (
         : "right-0 bg-linear-to-l from-bg to-transparent"
     }`}
   >
-    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-surface/80 text-fg ring-1 ring-white/10 backdrop-blur transition hover:scale-110 hover:bg-surface-2">
+    <span className="flex h-10 w-10 items-center justify-center rounded-md border border-white/15 bg-bg/70 text-fg backdrop-blur transition hover:border-white/30 hover:bg-surface-2">
       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
         <path
           d={direction === "left" ? "M15 18l-6-6 6-6" : "M9 18l6-6-6-6"}
@@ -31,7 +31,7 @@ export const MovieListSkeleton = ({ title }) => (
         {title}
       </h2>
     ) : (
-      <div className="my-4 h-6 w-40 rounded skeleton" />
+      <div className="my-4 h-6 w-40 rounded-md skeleton" />
     )}
     <div className="flex gap-3 overflow-hidden py-3 md:gap-4">
       {Array.from({ length: 8 }, (_, i) => (

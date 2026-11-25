@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import openai from "../utils/openai";
 import { API_OPTIONS } from "../utils/constants";
 import { addGptMovieResult, setGptLoading } from "../utils/gptSlice";
+import Alert from "./Alert";
 
 const searchMovieTMDB = async (movie) => {
   const res = await fetch(
@@ -75,10 +76,10 @@ const GptSearchBar = () => {
   return (
     <div
       className={`mx-auto max-w-2xl px-4 text-center transition-all duration-500 ${
-        isIdle ? "pt-[32vh]" : "pt-40 md:pt-32"
+        isIdle ? "pt-[30vh]" : "pt-24 md:pt-32"
       }`}
     >
-      <h1 className="font-display text-4xl tracking-wide text-fg md:text-5xl">
+      <h1 className="font-display text-4xl tracking-wide text-fg sm:text-5xl">
         {t.gptTitle}
       </h1>
 
@@ -100,13 +101,13 @@ const GptSearchBar = () => {
             type="text"
             placeholder={t.gptSearchPlaceHolder}
             aria-label={t.gptSearchPlaceHolder}
-            className="h-12 w-full rounded-md border border-white/15 bg-bg/80 pl-12 pr-4 text-base text-fg backdrop-blur-xl transition placeholder:text-muted hover:border-white/30 focus:border-ai-to focus:outline-none"
+            className="field h-12 w-full pl-12 pr-4 text-base"
           />
         </div>
         <button
           type="submit"
           disabled={isLoading}
-          className="flex h-12 shrink-0 items-center gap-2 rounded-md bg-linear-to-r from-ai-from to-ai-to px-6 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white md:text-base"
+          className="btn btn-ai h-12 px-4 text-sm sm:px-6 md:text-base"
         >
           {isLoading && (
             <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
@@ -115,11 +116,7 @@ const GptSearchBar = () => {
         </button>
       </form>
 
-      {errorMessage && (
-        <p role="alert" className="mt-4 text-sm text-red-300">
-          {errorMessage}
-        </p>
-      )}
+      {errorMessage && <Alert className="mt-4">{errorMessage}</Alert>}
     </div>
   );
 };

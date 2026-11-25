@@ -21,6 +21,12 @@ const HomeIcon = () => (
   </svg>
 );
 
+const SignOutIcon = () => (
+  <svg className="w-4 h-4 sm:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+    <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -84,7 +90,8 @@ const Header = () => {
           : "bg-linear-to-b from-black/90 via-black/40 to-transparent"
       }`}
     >
-      <div className="flex flex-col md:flex-row items-center justify-between gap-3 px-4 md:px-12 py-4">
+      {/* One row at every width: labels collapse to icons on small phones */}
+      <div className="flex items-center justify-between gap-3 px-4 py-3 md:px-12 md:py-4">
         <Logo />
 
         {user && (
@@ -94,7 +101,7 @@ const Header = () => {
                 value={langKey}
                 onChange={handleLanguageChange}
                 aria-label="Language"
-                className="h-9 cursor-pointer rounded-md border border-white/15 bg-bg/70 px-2.5 text-sm text-fg backdrop-blur transition hover:border-white/30 focus:border-ai-to focus:outline-none"
+                className="field h-9 max-w-28 cursor-pointer px-2 text-sm sm:max-w-none sm:px-2.5"
               >
                 {SUPPORTED_LANGUAGES.map((lang) => (
                   <option key={lang.identifier} value={lang.identifier}>
@@ -107,10 +114,13 @@ const Header = () => {
             {/* The GPT entry point: the only gradient button in the header */}
             <button
               onClick={handleGptSearchClick}
-              className="flex h-9 items-center gap-1.5 rounded-md bg-linear-to-r from-ai-from to-ai-to px-4 text-sm font-semibold text-white transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              aria-label={showGptSearch ? "Home" : "GPT Search"}
+              className="btn btn-ai h-9 px-2.5 text-sm sm:px-4"
             >
               {showGptSearch ? <HomeIcon /> : <SparkleIcon />}
-              {showGptSearch ? "Home" : "GPT Search"}
+              <span className="hidden sm:inline">
+                {showGptSearch ? "Home" : "GPT Search"}
+              </span>
             </button>
 
             {user.photoURL && (
@@ -124,9 +134,11 @@ const Header = () => {
 
             <button
               onClick={handleSignOut}
-              className="h-9 rounded-md border border-white/15 bg-bg/50 px-4 text-sm font-medium text-fg backdrop-blur transition hover:border-white/30 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              aria-label="Sign Out"
+              className="btn btn-ghost h-9 px-2.5 text-sm sm:px-4"
             >
-              Sign Out
+              <SignOutIcon />
+              <span className="hidden sm:inline">Sign Out</span>
             </button>
           </div>
         )}

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import Header from "./Header";
 import PosterBackdrop from "./PosterBackdrop";
+import Alert from "./Alert";
 import { checkValidData } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
@@ -24,8 +25,7 @@ const FIREBASE_ERRORS = {
 const getFriendlyError = (error) =>
   FIREBASE_ERRORS[error.code] ?? "Something went wrong. Please try again.";
 
-const inputClass =
-  "w-full rounded-lg border border-border bg-surface/80 px-4 py-3.5 text-fg placeholder:text-muted transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40";
+const inputClass = "field h-12 w-full px-4 text-base";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -90,13 +90,13 @@ const Login = () => {
       <Header />
       <PosterBackdrop />
 
-      <main className="flex min-h-screen items-center justify-center px-4 pt-28 pb-12">
+      <main className="flex min-h-screen items-center justify-center px-4 pt-24 pb-12">
         <form
           onSubmit={handleSubmit}
           noValidate
-          className="w-full max-w-md rounded-2xl border border-white/10 bg-bg/70 p-8 md:p-10 shadow-2xl shadow-black/60 backdrop-blur-xl"
+          className="w-full max-w-md rounded-xl border border-white/10 bg-bg/70 p-6 shadow-2xl shadow-black/60 backdrop-blur-xl sm:p-8 md:p-10"
         >
-          <h1 className="font-display text-5xl tracking-wide text-fg">
+          <h1 className="font-display text-4xl tracking-wide text-fg sm:text-5xl">
             {isSignInForm ? "Sign In" : "Sign Up"}
           </h1>
           <p className="mt-1 mb-6 text-sm text-muted">
@@ -141,23 +141,12 @@ const Login = () => {
             </div>
           </div>
 
-          {errorMessage && (
-            <div
-              role="alert"
-              className="mt-5 flex items-start gap-2 rounded-lg border border-primary/40 bg-primary/10 px-4 py-3 text-sm text-red-200"
-            >
-              <svg className="mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 8v4M12 16h.01" strokeLinecap="round" />
-              </svg>
-              <span>{errorMessage}</span>
-            </div>
-          )}
+          {errorMessage && <Alert className="mt-5">{errorMessage}</Alert>}
 
           <button
             type="submit"
             disabled={isLoading}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3.5 font-semibold text-white shadow-lg shadow-primary/30 transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+            className="btn btn-primary mt-6 h-12 w-full text-base"
           >
             {isLoading && (
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />

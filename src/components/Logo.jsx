@@ -2,7 +2,10 @@ import { useId } from "react";
 
 const SIZES = {
   sm: { text: "text-3xl", icon: "w-4 h-4" },
-  md: { text: "text-4xl md:text-5xl", icon: "w-5 h-5 md:w-6 md:h-6" },
+  md: {
+    text: "text-3xl sm:text-4xl md:text-5xl",
+    icon: "w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6",
+  },
   lg: { text: "text-6xl", icon: "w-8 h-8" },
 };
 

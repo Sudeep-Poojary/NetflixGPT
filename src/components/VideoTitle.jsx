@@ -6,7 +6,7 @@ const VideoTitle = ({ title, overview, rating, year }) => {
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-bg via-bg/40 to-transparent" />
 
       {/* Content sits in the lower-left, above where the first movie row overlaps */}
-      <div className="relative flex h-full flex-col justify-end px-5 pb-12 md:px-12 md:pb-[16%]">
+      <div className="relative flex h-full flex-col justify-end px-4 pb-12 md:px-12 md:pb-[16%]">
         <div className="max-w-sm md:max-w-md lg:max-w-lg">
           <div className="mb-2 flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-widest text-muted md:text-xs">
             <span className="rounded-sm bg-primary px-1.5 py-0.5 text-white">
@@ -30,14 +30,14 @@ const VideoTitle = ({ title, overview, rating, year }) => {
           </p>
 
           <div className="mt-4 flex items-center gap-2.5">
-            <button className="flex h-9 items-center gap-1.5 rounded-md bg-primary px-4 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:bg-primary-hover md:h-10 md:px-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg">
+            <button className="btn btn-primary h-9 px-4 text-sm md:h-10 md:px-5">
               <svg className="h-4 w-4 md:h-5 md:w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M8 5v14l11-7z" />
               </svg>
               Play
             </button>
 
-            <button className="flex h-9 items-center gap-1.5 rounded-md border border-white/15 bg-white/10 px-4 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/20 md:h-10 md:px-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+            <button className="btn btn-ghost h-9 px-4 text-sm md:h-10 md:px-5">
               <svg className="h-4 w-4 md:h-5 md:w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="12" cy="12" r="10" />
                 <path d="M12 16v-4M12 8h.01" strokeLinecap="round" strokeLinejoin="round" />

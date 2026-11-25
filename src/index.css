@@ -57,6 +57,36 @@
   }
 }
 
+/*
+ * Shared controls, so every button and field has the same shape and states.
+ * Size (height/padding/text size) is set where they're used.
+ */
+@utility btn {
+  @apply inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md font-semibold whitespace-nowrap transition;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
+  @apply disabled:cursor-not-allowed disabled:opacity-70;
+}
+
+/* Movie actions (Play, Sign In) */
+@utility btn-primary {
+  @apply bg-primary text-white shadow-lg shadow-primary/25 hover:bg-primary-hover focus-visible:ring-primary;
+}
+
+/* GPT features */
+@utility btn-ai {
+  @apply bg-linear-to-r from-ai-from to-ai-to text-white hover:brightness-110 focus-visible:ring-ai-to;
+}
+
+/* Secondary actions (More Info, Sign Out) */
+@utility btn-ghost {
+  @apply border border-white/15 bg-white/10 text-fg backdrop-blur-md hover:border-white/30 hover:bg-white/20 focus-visible:ring-white;
+}
+
+@utility field {
+  @apply rounded-md border border-white/15 bg-bg/80 text-fg backdrop-blur-xl transition placeholder:text-muted;
+  @apply hover:border-white/30 focus:border-white/70 focus:outline-none;
+}
+
 /* Shimmering placeholder block for loading states */
 @utility skeleton {
   background-image: linear-gradient(
