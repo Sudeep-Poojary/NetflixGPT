@@ -94,7 +94,7 @@ const Header = () => {
                 value={langKey}
                 onChange={handleLanguageChange}
                 aria-label="Language"
-                className="cursor-pointer rounded-full border border-border bg-surface/80 px-3 py-1.5 text-sm text-fg backdrop-blur focus:outline-none focus:ring-2 focus:ring-ai-to/60"
+                className="h-9 cursor-pointer rounded-md border border-white/15 bg-bg/70 px-2.5 text-sm text-fg backdrop-blur transition hover:border-white/30 focus:border-ai-to focus:outline-none"
               >
                 {SUPPORTED_LANGUAGES.map((lang) => (
                   <option key={lang.identifier} value={lang.identifier}>
@@ -104,20 +104,18 @@ const Header = () => {
               </select>
             )}
 
-            {/* Gradient-bordered pill: the GPT entry point */}
+            {/* The GPT entry point: the only gradient button in the header */}
             <button
               onClick={handleGptSearchClick}
-              className="group rounded-full bg-linear-to-r from-ai-from to-ai-to p-px shadow-[0_0_18px_-4px_var(--color-ai-to)] transition hover:shadow-[0_0_24px_-2px_var(--color-ai-to)] focus:outline-none focus-visible:ring-2 focus-visible:ring-ai-from"
+              className="flex h-9 items-center gap-1.5 rounded-md bg-linear-to-r from-ai-from to-ai-to px-4 text-sm font-semibold text-white transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
-              <span className="flex items-center gap-1.5 rounded-full bg-bg/90 px-4 py-1.5 text-sm font-semibold text-fg transition group-hover:bg-bg/70">
-                {showGptSearch ? <HomeIcon /> : <SparkleIcon />}
-                {showGptSearch ? "Home" : "GPT Search"}
-              </span>
+              {showGptSearch ? <HomeIcon /> : <SparkleIcon />}
+              {showGptSearch ? "Home" : "GPT Search"}
             </button>
 
             {user.photoURL && (
               <img
-                className="hidden md:block w-9 h-9 rounded-full object-cover ring-2 ring-border"
+                className="hidden md:block w-9 h-9 rounded-md object-cover"
                 src={user.photoURL}
                 alt={user.displayName ?? "User avatar"}
                 title={user.displayName ?? ""}
@@ -126,7 +124,7 @@ const Header = () => {
 
             <button
               onClick={handleSignOut}
-              className="rounded-full border border-border bg-surface/60 px-4 py-1.5 text-sm font-medium text-muted backdrop-blur transition hover:border-primary/60 hover:bg-primary hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="h-9 rounded-md border border-white/15 bg-bg/50 px-4 text-sm font-medium text-fg backdrop-blur transition hover:border-white/30 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               Sign Out
             </button>

@@ -82,21 +82,31 @@ const GptSearchBar = () => {
         {t.gptTitle}
       </h1>
 
-      <form
-        onSubmit={handleSubmit}
-        className="mt-6 flex items-center gap-2 rounded-full border border-white/15 bg-bg/70 p-1.5 pl-5 backdrop-blur-xl transition focus-within:border-ai-to/70 focus-within:shadow-[0_0_30px_-12px_var(--color-ai-to)]"
-      >
-        <input
-          ref={searchText}
-          type="text"
-          placeholder={t.gptSearchPlaceHolder}
-          aria-label={t.gptSearchPlaceHolder}
-          className="min-w-0 flex-1 bg-transparent py-2.5 text-base text-fg placeholder:text-muted focus:outline-none"
-        />
+      <form onSubmit={handleSubmit} className="mt-6 flex gap-2">
+        <div className="relative min-w-0 flex-1">
+          <svg
+            className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
+          </svg>
+          <input
+            ref={searchText}
+            type="text"
+            placeholder={t.gptSearchPlaceHolder}
+            aria-label={t.gptSearchPlaceHolder}
+            className="h-12 w-full rounded-md border border-white/15 bg-bg/80 pl-12 pr-4 text-base text-fg backdrop-blur-xl transition placeholder:text-muted hover:border-white/30 focus:border-ai-to focus:outline-none"
+          />
+        </div>
         <button
           type="submit"
           disabled={isLoading}
-          className="flex shrink-0 items-center gap-2 rounded-full bg-linear-to-r from-ai-from to-ai-to px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          className="flex h-12 shrink-0 items-center gap-2 rounded-md bg-linear-to-r from-ai-from to-ai-to px-6 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white md:text-base"
         >
           {isLoading && (
             <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
